@@ -7,7 +7,7 @@ import { Diamond, Star, Trophy, Clock, Music2, Github, MessageCircle, Globe } fr
 import { useLanyard } from '../hooks/use-lanyard'
 import Snowfall from '../../components/Snowfall'
 
-const CUSTOM_STATUS = "Arise."
+const CUSTOM_STATUS = "winter arc is crazy 🥶"
 
 export default function BioLink() {
   const { data: presence } = useLanyard('1162847350956511233')
