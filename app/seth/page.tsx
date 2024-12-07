@@ -1,6 +1,5 @@
 // app/seth/page.tsx
 'use client'
-import Image from 'next/image';
 
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -45,7 +44,7 @@ export default function BioLink() {
             <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700 rounded-full blur-lg opacity-60" />
             <div className="relative w-24 h-24">
               {presence?.discord_user && (
-                <Image
+                <img
                   src={`https://api.lanyard.rest/${presence.discord_user.id}.png`}
                   alt="Profile"
                   className="rounded-full border-2 border-white/10"
@@ -102,7 +101,7 @@ export default function BioLink() {
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0">
                   {presence.spotify?.album_art_url && (
-                    <Image
+                    <img
                       src={presence.spotify.album_art_url}
                       alt="Album Art"
                       className="w-full h-full object-cover"
@@ -129,7 +128,7 @@ export default function BioLink() {
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center">
                   {activity.assets?.small_image && (
-                    <Image
+                    <img
                       src={`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.png`}
                       alt={activity.name}
                       className="w-6 h-6"

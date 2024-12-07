@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
+ 
+
   async redirects() {
     // Path to the 'app' directory
     const appDir = path.resolve(__dirname, 'app');
