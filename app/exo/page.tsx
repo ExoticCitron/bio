@@ -8,7 +8,7 @@ import { useLanyard } from '../hooks/use-lanyard';
 import Snowfall from '../../components/Snowfall';
 
 
-const CUSTOM_STATUS = "winter arc 🥶";
+const CUSTOM_STATUS = "chessy wessy";
 
 export default function BioLink() {
   const { data: presence } = useLanyard('1245114941610922007');
