@@ -1,4 +1,4 @@
-// app/exo/page.tsx
+// app/hoithung/page.tsx
 'use client'
 
 import { useEffect, useState } from 'react';
@@ -9,10 +9,10 @@ import { useLanyard } from '../hooks/use-lanyard';
 import Snowfall from '../../components/Snowfall';
 
 
-const CUSTOM_STATUS = "winter arc 🥶";
+const CUSTOM_STATUS = "avid talk tuah fan";
 
 export default function BioLink() {
-  const { data: presence } = useLanyard('1245114941610922007');
+  const { data: presence } = useLanyard('708647339413209129');
   const [timeElapsed, setTimeElapsed] = useState('');
 
   useEffect(() => {

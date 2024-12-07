@@ -13,10 +13,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "@exo",
-  description: "exoticcitron on top",
-};
+
 
 export default function RootLayout({
   children,
