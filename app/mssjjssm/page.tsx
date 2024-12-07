@@ -35,37 +35,37 @@ export default function BioLink() {
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
-      <Snowfall />
-      <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-black mix-blend-overlay" />
-      <Card className="w-full max-w-md bg-black/40 backdrop-blur-xl border-gray-800 p-8 rounded-xl space-y-6 relative z-10">
-        {/* Profile Section */}
-        <div className="flex flex-col items-center space-y-4">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700 rounded-full blur-lg opacity-60" />
-            <div className="relative w-24 h-24">
-              {presence?.discord_user && (
-                <img
-                  src={`https://api.lanyard.rest/${presence.discord_user.id}.png`}
-                  alt="Profile"
-                  className="rounded-full border-2 border-white/10"
-                  width={96}
-                  height={96}
-                />
-              )}
-              <div
-                className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black translate-x-1/4 translate-y-1/4 ${
-                  presence?.discord_status === 'online'
-                    ? 'bg-green-400'
-                    : presence?.discord_status === 'idle'
-                    ? 'bg-yellow-400'
-                    : presence?.discord_status === 'dnd'
-                    ? 'bg-red-400'
-                    : 'bg-gray-400'
-                }`}
-              />
-            </div>
-          </div>
-
+  <Snowfall />
+  <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-black mix-blend-overlay" />
+  <Card className="w-full max-w-md bg-black/40 backdrop-blur-xl border-gray-800 p-8 rounded-xl space-y-6 relative z-10">
+    {/* Profile Section */}
+    <div className="flex flex-col items-center space-y-4">
+      <div className="relative">
+        {/* Red glow outside the profile picture */}
+        <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700 rounded-full blur-lg opacity-60" />
+        <div className="relative w-24 h-24">
+          {/* Profile Picture */}
+          {presence?.discord_user && (
+            <img
+              src={`https://api.lanyard.rest/${presence.discord_user.id}.png`}
+              alt="Profile"
+              className="rounded-full border-2 border-white/10"
+              width={96}
+              height={96}
+            />
+          )}
+          {/* Status indicator */}
+          <div
+            className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black translate-x-1/4 translate-y-1/4 ${presence?.discord_status === 'online'
+              ? 'bg-green-400'
+              : presence?.discord_status === 'idle'
+              ? 'bg-yellow-400'
+              : presence?.discord_status === 'dnd'
+              ? 'bg-red-400'
+              : 'bg-gray-400'}`}
+          />
+        </div>
+      </div>
           <div className="text-center">
             <h1 className="text-2xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)]">
               {presence?.discord_user?.username || 'Loading...'}
@@ -139,9 +139,8 @@ export default function BioLink() {
                   <h3 className="font-medium text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">{activity.name}</h3>
                   {activity.details && <p className="text-sm text-blue-400">{activity.details}</p>}
                   {activity.state && <p className="text-sm text-blue-400">{activity.state}</p>}
-                  {activity.timestamps?.start && (
-                    <p className="text-xs text-blue-400 mt-1">Elapsed time: {timeElapsed}</p>
-                  )}
+                
+                  
                 </div>
               </div>
             </div>
