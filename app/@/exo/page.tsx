@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Diamond, Star, Trophy, Clock, Music2, Github, MessageCircle, Globe } from 'lucide-react'
-import { useLanyard } from './hooks/use-lanyard'
-import Snowfall from '../components/Snowfall'
+import { useLanyard } from '../../hooks/use-lanyard'
+import Snowfall from '../../../components/Snowfall'
 
 const CUSTOM_STATUS = "Arise."
 
 export default function BioLink() {
-  const { data: presence } = useLanyard('1245114941610922007') // Your Discord user ID
+  const { data: presence } = useLanyard('1245114941610922007')
   const [timeElapsed, setTimeElapsed] = useState('')
 
   useEffect(() => {
