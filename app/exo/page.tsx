@@ -158,7 +158,7 @@ export default function BioLink() {
             <Github className="w-6 h-6 drop-shadow-[0_0_12px_rgba(255,255,255,1)]" />
           </a>
           <a
-            href="https://discord.com/users/708647339413209129"
+            href="https://discord.com/users/1245114941610922007"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
