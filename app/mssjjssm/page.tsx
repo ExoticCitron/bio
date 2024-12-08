@@ -1,7 +1,7 @@
 // app/hoithung/page.tsx
 'use client'
 
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Diamond, Star, Trophy, Clock, Music2, Github, MessageCircle, Globe } from 'lucide-react';
@@ -13,7 +13,7 @@ const CUSTOM_STATUS = "kissing my homies gn";
 
 export default function BioLink() {
   const { data: presence } = useLanyard('717690892948996107');
-  const [timeElapsed, setTimeElapsed] = useState('');
+  /*const [timeElapsed, setTimeElapsed] = useState('');
 
   useEffect(() => {
     const updateElapsedTime = () => {
@@ -32,6 +32,7 @@ export default function BioLink() {
 
     return () => clearInterval(interval);
   }, [presence]);
+  */
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
