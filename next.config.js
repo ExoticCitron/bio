@@ -6,7 +6,7 @@ module.exports = {
     const appDir = path.resolve(__dirname, 'app');
     const directories = fs
       .readdirSync(appDir, { withFileTypes: true })
-      .filter(item => item.isDirectory() && item.name !== 'api' && item.name !== 'home')
+      .filter(item => item.isDirectory() && item.name !== 'api' && item.name !== 'home' && item.name !== 'signup' && item.name !== 'login')
       .map(item => item.name);
 
     const redirects = directories.map(dir => ({
@@ -22,13 +22,13 @@ module.exports = {
     const appDir = path.resolve(__dirname, 'app');
     const directories = fs
       .readdirSync(appDir, { withFileTypes: true })
-      .filter(item => item.isDirectory() && item.name !== 'api' && item.name !== 'home')
+      .filter(item => item.isDirectory() && item.name !== 'api' && item.name !== 'home' && item.name !== 'signup' && item.name !== 'login')
       .map(item => item.name);
 
     const rewrites = [
       {
         source: '/',
-        destination: '/home',
+        destination: '/home', 
       },
       ...directories.map(dir => ({
         source: `/@${dir}`,

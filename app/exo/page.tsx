@@ -1,5 +1,5 @@
-// app/exo/page.tsx
 'use client'
+
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -7,27 +7,35 @@ import { Diamond, Star, Trophy, Clock, Music2, Github, MessageCircle, Globe } fr
 import { useLanyard } from '../hooks/use-lanyard';
 import Snowfall from '../../components/Snowfall';
 
-
 const CUSTOM_STATUS = "chessy wessy";
 
 export default function BioLink() {
   const { data: presence } = useLanyard('1245114941610922007');
-  const [timeElapsed, setTimeElapsed] = useState('');
+  const [activityElapsedTime, setActivityElapsedTime] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const updateElapsedTime = () => {
-      if (presence?.activities?.[0]?.timestamps?.start) {
-        const start = new Date(presence.activities[0].timestamps.start);
-        const now = new Date();
-        const diff = now.getTime() - start.getTime();
-        const hours = Math.floor(diff / 3600000);
-        const minutes = Math.floor((diff % 3600000) / 60000);
-        setTimeElapsed(`${hours}h ${minutes}m`);
+    const updateElapsedTimes = () => {
+      if (presence?.activities) {
+        const newElapsedTimes: Record<string, string> = {};
+        presence.activities.forEach(activity => {
+          if (activity.timestamps?.start) {
+            const start = new Date(activity.timestamps.start);
+            const now = new Date();
+            const diff = now.getTime() - start.getTime();
+
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            newElapsedTimes[activity.id] = `${hours > 0 ? `${hours}:` : ''}${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+          }
+        });
+        setActivityElapsedTime(newElapsedTimes);
       }
     };
 
-    updateElapsedTime();
-    const interval = setInterval(updateElapsedTime, 60000);
+    updateElapsedTimes();
+    const interval = setInterval(updateElapsedTimes, 1000); // Update every second for live ticking
 
     return () => clearInterval(interval);
   }, [presence]);
@@ -44,7 +52,7 @@ export default function BioLink() {
             <div className="relative w-24 h-24">
               {presence?.discord_user && (
                 <img
-                  src={`https://api.lanyard.rest/${presence.discord_user.id}.png`}
+                  src={`https://cdn.discordapp.com/avatars/${presence.discord_user.id}/${presence.discord_user.avatar}.png`}
                   alt="Profile"
                   className="rounded-full border-2 border-white/10"
                   width={96}
@@ -120,8 +128,8 @@ export default function BioLink() {
           </div>
         )}
 
-        {presence?.activities?.filter((a) => a.type !== 2).map((activity) => (
-          <div key={activity.name} className="relative group">
+        {presence?.activities?.map((activity) => (
+          <div key={activity.id} className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-blue-700/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
             <div className="relative bg-black/50 rounded-lg p-4 flex items-center justify-between border border-gray-800">
               <div className="flex items-center space-x-3">
@@ -139,7 +147,7 @@ export default function BioLink() {
                   {activity.details && <p className="text-sm text-blue-400">{activity.details}</p>}
                   {activity.state && <p className="text-sm text-blue-400">{activity.state}</p>}
                   {activity.timestamps?.start && (
-                    <p className="text-xs text-blue-400 mt-1">Elapsed time: {timeElapsed}</p>
+                    <p className="text-xs text-blue-400 mt-1">Elapsed time: {activityElapsedTime[activity.id]}</p>
                   )}
                 </div>
               </div>
@@ -150,7 +158,7 @@ export default function BioLink() {
         {/* Social Links */}
         <div className="flex justify-center space-x-4 mt-6">
           <a
-            href="https://github.com/notkanyewest"
+            href="https://github.com/ExoticCitron"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
@@ -166,7 +174,7 @@ export default function BioLink() {
             <MessageCircle className="w-6 h-6 drop-shadow-[0_0_12px_rgba(255,255,255,1)]" />
           </a>
           <a
-            href="https://exodevs.space/seth"
+            href="https://exodevs.space/exo"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"

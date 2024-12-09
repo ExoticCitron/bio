@@ -25,12 +25,16 @@ export default function HomePage() {
               <Link href="#" className="text-gray-300 hover:text-purple-400 transition-colors">
                 Pricing
               </Link>
-              <Button variant="ghost" className="text-gray-300 hover:text-purple-400">
-                Login
-              </Button>
-              <Button className="bg-purple-600 text-white hover:bg-purple-700">
-                Sign Up Free
-              </Button>
+              <Link href="/login">
+                <Button variant="ghost" className="text-gray-300 hover:text-purple-400">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/signup">
+                <Button className="bg-purple-600 text-white hover:bg-purple-700">
+                  Sign Up Free
+                </Button>
+              </Link>
             </div>
             
             <Button variant="ghost" className="md:hidden" size="icon">
@@ -184,8 +188,8 @@ export default function HomePage() {
             <div>
               <h3 className="text-white font-semibold mb-4">General</h3>
               <div className="space-y-2">
-                <Link href="#" className="block text-gray-400 hover:text-purple-400 text-sm">Login</Link>
-                <Link href="#" className="block text-gray-400 hover:text-purple-400 text-sm">Sign Up</Link>
+                <Link href="/login" className="block text-gray-400 hover:text-purple-400 text-sm">Login</Link>
+                <Link href="/signup" className="block text-gray-400 hover:text-purple-400 text-sm">Sign Up</Link>
                 <Link href="#" className="block text-gray-400 hover:text-purple-400 text-sm">Pricing</Link>
               </div>
             </div>
