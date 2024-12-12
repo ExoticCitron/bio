@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { PenIcon as Gun } from 'lucide-react'
 import { useState } from "react"
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,6 +11,42 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+  const [agreeTerms, setAgreeTerms] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!agreeTerms) {
+      setError('You must agree to the Terms of Service and Privacy Policy')
+      return
+    }
+    setIsLoading(true)
+    setError('')
+    setSuccess('')
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, username }),
+      })
+      if (response.ok) {
+        setSuccess('Account created successfully. Please check your email for verification.')
+        setTimeout(() => router.push('/login'), 3000)
+      } else {
+        const data = await response.json()
+        setError(data.error || 'An error occurred during signup')
+      }
+    } catch (err) {
+      setError('An error occurred during signup')
+    }
+    setIsLoading(false)
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-black">
@@ -19,7 +56,7 @@ export default function SignupPage() {
           <h1 className="text-xl font-semibold">Create an exodevs.space account</h1>
         </div>
         
-        <div className="space-y-4">
+        <form onSubmit={handleSignup} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-gray-400">
               Email
@@ -29,6 +66,9 @@ export default function SignupPage() {
               type="email"
               placeholder="Email"
               className="border-gray-800 bg-zinc-900 text-white placeholder:text-gray-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           
@@ -38,6 +78,7 @@ export default function SignupPage() {
                 Password
               </Label>
               <Button
+                type="button"
                 variant="ghost"
                 size="sm"
                 className="h-auto p-0 text-sm text-purple-400 hover:text-purple-300"
@@ -51,6 +92,9 @@ export default function SignupPage() {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="border-gray-800 bg-zinc-900 text-white placeholder:text-gray-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -67,12 +111,20 @@ export default function SignupPage() {
                 type="text"
                 className="border-gray-800 bg-zinc-900 pl-[120px] text-white placeholder:text-gray-500"
                 placeholder="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms" className="border-gray-600 data-[state=checked]:bg-purple-500" />
+            <Checkbox 
+              id="terms" 
+              className="border-gray-600 data-[state=checked]:bg-purple-500"
+              checked={agreeTerms}
+              onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
+            />
             <Label htmlFor="terms" className="text-sm text-gray-400">
               I agree to the{" "}
               <Link href="/terms" className="text-purple-400 hover:text-purple-300">
@@ -85,10 +137,13 @@ export default function SignupPage() {
             </Label>
           </div>
 
-          <Button className="w-full bg-zinc-800 hover:bg-zinc-700">
-            Sign Up
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {success && <p className="text-green-500 text-sm">{success}</p>}
+
+          <Button type="submit" className="w-full bg-zinc-800 hover:bg-zinc-700" disabled={isLoading}>
+            {isLoading ? 'Signing up...' : 'Sign Up'}
           </Button>
-        </div>
+        </form>
 
         <div className="text-center text-sm text-gray-400">
           Already have an account?{" "}

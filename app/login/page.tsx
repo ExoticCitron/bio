@@ -3,12 +3,40 @@
 import Link from "next/link"
 import { PenIcon as Gun } from 'lucide-react'
 import { useState } from "react"
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      if (response.ok) {
+        router.push('/dashboard')
+      } else {
+        const data = await response.json()
+        setError(data.error || 'Invalid email or password')
+      }
+    } catch (err) {
+      setError('An error occurred during login')
+    }
+    setIsLoading(false)
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-black">
@@ -18,7 +46,7 @@ export default function LoginPage() {
           <h1 className="text-xl font-semibold">Log in to your account</h1>
         </div>
         
-        <div className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-gray-400">
               Email
@@ -28,6 +56,9 @@ export default function LoginPage() {
               type="email"
               placeholder="Email"
               className="border-gray-800 bg-zinc-900 text-white placeholder:text-gray-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           
@@ -37,6 +68,7 @@ export default function LoginPage() {
                 Password
               </Label>
               <Button
+                type="button"
                 variant="ghost"
                 size="sm"
                 className="h-auto p-0 text-sm text-purple-400 hover:text-purple-300"
@@ -50,6 +82,9 @@ export default function LoginPage() {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="border-gray-800 bg-zinc-900 text-white placeholder:text-gray-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -62,10 +97,12 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          <Button className="w-full bg-zinc-800 hover:bg-zinc-700">
-            Login
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <Button type="submit" className="w-full bg-zinc-800 hover:bg-zinc-700" disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
           </Button>
-        </div>
+        </form>
 
         <div className="text-center text-sm text-gray-400">
           Are you new to exodevs.space?{" "}
