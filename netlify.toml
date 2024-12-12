@@ -1,1 +1,6 @@
-prisma generate
+[build]
+  command = "npm run build && npx prisma generate"
+  publish = "biolinkk"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
