@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer'
-import tls from 'tls'
 
 export async function sendVerificationEmail(email: string, token: string) {
   const transporter = nodemailer.createTransport({
@@ -22,11 +21,11 @@ export async function sendVerificationEmail(email: string, token: string) {
 
   try {
     await transporter.sendMail({
-      from: '"ExoDevs Space" <noreply@exodevs.space>',
+      from: '"exodevs.space" <noreply@exodevs.space>',
       to: email,
       subject: 'Verify your email address',
       html: `
-        <h1>Welcome to ExoDevs Space!</h1>
+        <h1>Welcome to exodevs.space!</h1>
         <p>Please click the link below to verify your email address:</p>
         <a href="${verificationLink}">${verificationLink}</a>
       `,

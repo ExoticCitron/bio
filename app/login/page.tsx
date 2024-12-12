@@ -32,7 +32,7 @@ export default function LoginPage() {
         const data = await response.json()
         setError(data.error || 'Invalid email or password')
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred during login')
     }
     setIsLoading(false)

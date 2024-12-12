@@ -24,7 +24,7 @@ export function UsernameSelectionPopup({ isOpen, onUsernameSet }: UsernameSelect
     setError('')
     try {
       await onUsernameSet(username)
-    } catch (err) {
+    } catch  {
       setError('Failed to set username. Please try again.')
     } finally {
       setIsLoading(false)
@@ -66,3 +66,4 @@ export function UsernameSelectionPopup({ isOpen, onUsernameSet }: UsernameSelect
     </Dialog>
   )
 }
+

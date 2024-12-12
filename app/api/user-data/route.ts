@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { verify } from 'jsonwebtoken'
-import {Request} from "express"
 
 const prisma = new PrismaClient()
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const token = req.cookies.get('token')?.value
 
   if (!token) {

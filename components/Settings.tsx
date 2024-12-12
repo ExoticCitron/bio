@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { SettingsIcon, UserIcon, LogOutIcon, BellIcon, ShieldIcon, EyeIcon, SunIcon, MoonIcon, Trash2Icon, CheckIcon, AlertTriangleIcon } from 'lucide-react'
+import { SettingsIcon, UserIcon, LogOutIcon, ShieldIcon, EyeIcon, SunIcon, MoonIcon, Trash2Icon, CheckIcon, AlertTriangleIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import {
   Dialog,

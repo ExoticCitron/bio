@@ -1,8 +1,7 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { verify } from 'jsonwebtoken'
-import { Request } from "express"
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const token = req.cookies.get('token')?.value
 
   if (!token) {
@@ -12,8 +11,13 @@ export async function GET(req: Request) {
   try {
     verify(token, process.env.JWT_SECRET!)
     return NextResponse.json({ message: 'Authenticated' })
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
   }
 }
+
+
+
+
+
 
