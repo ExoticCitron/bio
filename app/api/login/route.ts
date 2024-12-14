@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 // Custom JWT signing function
-async function signJWT(payload: any, secret: string): Promise<string> {
+async function signJWT(payload: { userId: string; exp: number }, secret: string): Promise<string> {
   const header = { alg: 'HS256', typ: 'JWT' }
   const encodedHeader = btoa(JSON.stringify(header))
   const encodedPayload = btoa(JSON.stringify(payload))
