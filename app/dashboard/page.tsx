@@ -26,13 +26,28 @@ export default function DashboardPage() {
   useEffect(() => {
     const checkAuthAndUsername = async () => {
       try {
-        const authResponse = await fetch('/api/check-auth')
+        // First, check localStorage
+        const storedUser = localStorage.getItem('user')
+        if (storedUser) {
+          const user = JSON.parse(storedUser)
+          setUserData(user)
+          setUsername(user.username)
+          setIsLoading(false)
+          return
+        }
+
+        // If not in localStorage, check with the server
+        const authResponse = await fetch('/api/check-auth', {
+          credentials: 'include',
+        })
         if (!authResponse.ok) {
           router.push('/login')
           return
         }
 
-        const userDataResponse = await fetch('/api/user-data')
+        const userDataResponse = await fetch('/api/user-data', {
+          credentials: 'include',
+        })
         if (userDataResponse.ok) {
           const userData = await userDataResponse.json()
           setUserData(userData)
@@ -87,22 +102,22 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Division</h1>
-              <p className={`text-xs ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Premium Biolink Service</p>
+              <p className={`text-xs ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Discord Bot</p>
             </div>
           </div>
           <nav className="space-y-2 flex-grow">
-            <div className={`px-2 py-1.5 text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Link Management</div>
+            <div className={`px-2 py-1.5 text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Bot Management</div>
             <Button variant="ghost" className={`w-full justify-start ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               <HashIcon className="mr-2 h-4 w-4" />
               Dashboard
             </Button>
             <Button variant="ghost" className={`w-full justify-start ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               <MessageSquareIcon className="mr-2 h-4 w-4" />
-              Links
+              Commands
             </Button>
             <Button variant="ghost" className={`w-full justify-start ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               <UsersIcon className="mr-2 h-4 w-4" />
-              Link Management
+              User Management
             </Button>
             <Button variant="ghost" className={`w-full justify-start ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               <BellIcon className="mr-2 h-4 w-4" />
@@ -110,7 +125,7 @@ export default function DashboardPage() {
             </Button>
             <Button variant="ghost" className={`w-full justify-start ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               <ZapIcon className="mr-2 h-4 w-4" />
-              Premium
+              Auto-mod
             </Button>
           </nav>
           <div className={`mt-auto pt-4 border-t ${darkMode ? 'border-zinc-800' : 'border-gray-200'}`}>
@@ -118,7 +133,7 @@ export default function DashboardPage() {
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/placeholder-user.jpg" alt="@user" />
-                  <AvatarFallback>EX</AvatarFallback>
+                  <AvatarFallback>UC</AvatarFallback>
                 </Avatar>
                 <div>
                   <p className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>@{username}</p>
@@ -156,7 +171,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-3">
                     <CircleIcon className="size-6 text-indigo-400" />
                     <div>
-                      <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>New feature: Delete Account</p>
+                      <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>New command: /serverinfo</p>
                       <p className={`text-xs ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>main • 5 minutes ago</p>
                     </div>
                   </div>
@@ -169,7 +184,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-3">
                     <CircleIcon className="size-6 text-indigo-400" />
                     <div>
-                      <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>Improved site auto-moderation</p>
+                      <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>Improved auto-moderation</p>
                       <p className={`text-xs ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>mod • 2 hours ago</p>
                     </div>
                   </div>
@@ -182,7 +197,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-3">
                     <CircleIcon className="size-6 text-indigo-400" />
                     <div>
-                      <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>Bug fix: username assignment</p>
+                      <p className={`text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>Bug fix: role assignment</p>
                       <p className={`text-xs ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>roles • 1 day ago</p>
                     </div>
                   </div>
@@ -225,19 +240,19 @@ export default function DashboardPage() {
 
             {/* Bot Statistics */}
             <Card className={`p-6 ${darkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-gray-200'}`}>
-              <h2 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Biolink Statistics</h2>
+              <h2 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Bot Statistics</h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Total Links:</span>
-                  <span className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>5</span>
+                  <span className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Total Servers</span>
+                  <span className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>1,234</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Active Links:</span>
-                  <span className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>1</span>
+                  <span className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Active Users</span>
+                  <span className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>56,789</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Links Used:</span>
-                  <span className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>1/5</span>
+                  <span className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-gray-500'}`}>Commands Used (24h)</span>
+                  <span className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>23,456</span>
                 </div>
               </div>
             </Card>
@@ -246,11 +261,11 @@ export default function DashboardPage() {
             <Card className={`p-6 ${darkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-gray-200'}`}>
               <h2 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Quick Actions</h2>
               <div className="grid grid-cols-2 gap-4">
-                <Button>Change Username</Button>
-                <Button>Add New Link</Button>
-                <Button>Update Biolinks</Button>
+                <Button>Add to Server</Button>
+                <Button>Add to Server</Button>
+                <Button>Update Commands</Button>
                 <Button>View Logs</Button>
-                <Button>Manage Biolinks</Button>
+                <Button>Manage Permissions</Button>
               </div>
             </Card>
           </div>
