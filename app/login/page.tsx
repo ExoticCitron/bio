@@ -26,13 +26,14 @@ export default function LoginPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
+      const data = await response.json()
       if (response.ok) {
         router.push('/dashboard')
       } else {
-        const data = await response.json()
-        setError(data.error || 'Invalid email or password')
+        setError(data.error || 'An error occurred during login')
       }
-    } catch {
+    } catch (err) {
+      console.error('Login error:', err)
       setError('An error occurred during login')
     }
     setIsLoading(false)

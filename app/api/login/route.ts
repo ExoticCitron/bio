@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
 const prisma = new PrismaClient()
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
 
@@ -24,7 +24,15 @@ export async function POST(req: Request) {
     const token = sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1d' })
 
     const response = NextResponse.json({ message: 'Login successful' }, { status: 200 })
-    response.cookies.set('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' })
+    
+    // Set the cookie with appropriate options
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 86400, // 1 day in seconds
+      path: '/',
+    })
 
     return response
   } catch (error) {
@@ -32,3 +40,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
+
