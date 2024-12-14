@@ -1,9 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
-import * as jose from 'jose-browser-runtime'
 
 const prisma = new PrismaClient()
+
+// Custom JWT signing function
+async function signJWT(payload: any, secret: string): Promise<string> {
+  const header = { alg: 'HS256', typ: 'JWT' }
+  const encodedHeader = btoa(JSON.stringify(header))
+  const encodedPayload = btoa(JSON.stringify(payload))
+  const dataToSign = `${encodedHeader}.${encodedPayload}`
+  
+  const encoder = new TextEncoder()
+  const secretBuffer = encoder.encode(secret)
+  const dataBuffer = encoder.encode(dataToSign)
+  
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    secretBuffer,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+  
+  const signature = await crypto.subtle.sign(
+    'HMAC',
+    cryptoKey,
+    dataBuffer
+  )
+  
+  const encodedSignature = btoa(String.fromCharCode(...new Uint8Array(signature)))
+  return `${dataToSign}.${encodedSignature}`
+}
 
 export async function POST(req: NextRequest) {
   console.log('Login attempt started')
@@ -30,11 +58,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
     }
 
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
-    const token = await new jose.SignJWT({ userId: user.id })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1d')
-      .sign(secret)
+    const token = await signJWT(
+      { userId: user.id, exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) },
+      process.env.JWT_SECRET!
+    )
 
     console.log(`Token generated for user: ${email}`)
 
