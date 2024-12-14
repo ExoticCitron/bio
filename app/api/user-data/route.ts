@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import { verify } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 const prisma = new PrismaClient()
 
@@ -12,8 +12,10 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const decoded = verify(token, process.env.JWT_SECRET!) as { userId: string }
-    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!, {
+      algorithms: ['HS256']  // Explicitly specify the expected algorithm
+    }) as { userId: string }
+
     if (!decoded || typeof decoded !== 'object' || !decoded.userId) {
       throw new Error('Invalid token payload')
     }
@@ -33,3 +35,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Authentication failed' }, { status: 401 })
   }
 }
+

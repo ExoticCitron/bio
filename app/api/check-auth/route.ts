@@ -1,43 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-async function verifyJWT(token: string, secret: string): Promise<boolean> {
-  try {
-    const [encodedHeader, encodedPayload, encodedSignature] = token.split('.')
-    //const header = JSON.parse(atob(encodedHeader))
-    const payload = JSON.parse(atob(encodedPayload))
-
-    if (payload.exp && Date.now() >= payload.exp * 1000) {
-      return false
-    }
-
-    const dataToVerify = `${encodedHeader}.${encodedPayload}`
-    const signature = atob(encodedSignature)
-
-    const encoder = new TextEncoder()
-    const secretBuffer = encoder.encode(secret)
-    const dataBuffer = encoder.encode(dataToVerify)
-
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      secretBuffer,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['verify']
-    )
-
-    const isValid = await crypto.subtle.verify(
-      'HMAC',
-      cryptoKey,
-      new Uint8Array(signature.split('').map(c => c.charCodeAt(0))),
-      dataBuffer
-    )
-
-    return isValid
-  } catch (error) {
-    console.error('JWT verification error:', error)
-    return false
-  }
-}
+import jwt from 'jsonwebtoken'
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get('token')?.value
@@ -47,14 +9,18 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const isValid = await verifyJWT(token, process.env.JWT_SECRET!)
-    if (isValid) {
-      return NextResponse.json({ authenticated: true })
-    } else {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!, {
+      algorithms: ['HS256']  // Explicitly specify the expected algorithm
+    }) as { userId: string }
+
+    if (!decoded || typeof decoded !== 'object' || !decoded.userId) {
+      throw new Error('Invalid token payload')
     }
+
+    return NextResponse.json({ authenticated: true })
   } catch (error) {
-    console.error('Auth check error:', error)
+    console.error('JWT verification error:', error)
     return NextResponse.json({ error: 'Authentication failed' }, { status: 401 })
   }
 }
+

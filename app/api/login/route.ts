@@ -26,7 +26,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1d' })
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { 
+      expiresIn: '1d',
+      algorithm: 'HS256'  // Explicitly specify the algorithm
+    })
 
     console.log(`Token generated for user: ${email}`)
 
