@@ -24,47 +24,30 @@ export default function DashboardPage() {
   }, [darkMode])
 
   useEffect(() => {
-    const checkAuthAndUsername = async () => {
+    const checkAuthAndFetchUserData = async () => {
       try {
-        // First, check localStorage
-        const storedUser = localStorage.getItem('user')
-        if (storedUser) {
-          const user = JSON.parse(storedUser)
-          setUserData(user)
-          setUsername(user.username)
-          setIsLoading(false)
-          return
-        }
-
-        // If not in localStorage, check with the server
-        const authResponse = await fetch('/api/check-auth', {
-          credentials: 'include',
-        })
+        const authResponse = await fetch('/api/check-auth', { credentials: 'include' })
         if (!authResponse.ok) {
-          router.push('/login')
-          return
+          throw new Error('Authentication failed')
         }
 
-        const userDataResponse = await fetch('/api/user-data', {
-          credentials: 'include',
-        })
-        if (userDataResponse.ok) {
-          const userData = await userDataResponse.json()
-          setUserData(userData)
-          if (userData.username) {
-            setUsername(userData.username)
-          } else {
-            setShowUsernamePopup(true)
-          }
+        const userDataResponse = await fetch('/api/user-data', { credentials: 'include' })
+        if (!userDataResponse.ok) {
+          throw new Error('Failed to fetch user data')
         }
 
+        const userData = await userDataResponse.json()
+        setUserData(userData)
+        setUsername(userData.username)
+        setShowUsernamePopup(!userData.username)
         setIsLoading(false)
       } catch (error) {
         console.error('Auth check or user data fetch failed:', error)
         router.push('/login')
       }
     }
-    checkAuthAndUsername()
+
+    checkAuthAndFetchUserData()
   }, [router])
 
   const handleUsernameSet = async (newUsername: string) => {
@@ -73,6 +56,7 @@ export default function DashboardPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: newUsername }),
+        credentials: 'include',
       })
       if (response.ok) {
         setUsername(newUsername)
@@ -84,6 +68,11 @@ export default function DashboardPage() {
       console.error('Error setting username:', error)
       throw error
     }
+  }
+
+  const handleLogout = () => {
+    document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    router.push('/login')
   }
 
   if (isLoading) {
@@ -154,6 +143,13 @@ export default function DashboardPage() {
             >
               {darkMode ? <SunIcon className="h-4 w-4 mr-2" /> : <MoonIcon className="h-4 w-4 mr-2" />}
               {darkMode ? 'Light Mode' : 'Dark Mode'}
+            </Button>
+            <Button 
+              variant="ghost" 
+              className={`w-full justify-start mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}
+              onClick={handleLogout}
+            >
+              Logout
             </Button>
           </div>
         </div>
@@ -262,10 +258,10 @@ export default function DashboardPage() {
               <h2 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Quick Actions</h2>
               <div className="grid grid-cols-2 gap-4">
                 <Button>Add to Server</Button>
-                <Button>Add to Server</Button>
                 <Button>Update Commands</Button>
                 <Button>View Logs</Button>
                 <Button>Manage Permissions</Button>
+                <Button>Configure Auto-mod</Button>
               </div>
             </Card>
           </div>

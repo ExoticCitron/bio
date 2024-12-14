@@ -8,17 +8,19 @@ export async function GET(req: NextRequest) {
   const token = req.cookies.get('token')?.value
 
   if (!token) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    return NextResponse.json({ error: 'No token found' }, { status: 401 })
   }
 
   try {
     const decoded = verify(token, process.env.JWT_SECRET!) as { userId: string }
+    
     if (!decoded || typeof decoded !== 'object' || !decoded.userId) {
       throw new Error('Invalid token payload')
     }
+
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      select: { username: true, email: true }
+      select: { email: true, username: true }
     })
 
     if (!user) {
@@ -27,8 +29,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(user)
   } catch (error) {
-    console.error('Error fetching user data:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('User data fetch error:', error)
+    return NextResponse.json({ error: 'Authentication failed' }, { status: 401 })
   }
 }
-
