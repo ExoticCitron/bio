@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "express": "^4.21.2",
     "jose": "^5.9.6",
+    "jose-browser-runtime": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.468.0",
     "mongodb": "^6.12.0",

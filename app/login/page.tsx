@@ -21,15 +21,19 @@ export default function LoginPage() {
     setIsLoading(true)
     setError('')
     try {
+      console.log('Login attempt started')
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
       const data = await response.json()
+      console.log('Login response:', data)
       if (response.ok) {
+        console.log('Login successful, redirecting to dashboard')
         router.push('/dashboard')
       } else {
+        console.error('Login failed:', data.error)
         setError(data.error || 'An error occurred during login')
       }
     } catch (err) {

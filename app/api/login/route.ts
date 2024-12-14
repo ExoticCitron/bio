@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
-import { sign } from 'jsonwebtoken'
+import * as jose from 'jose-browser-runtime'
 
 const prisma = new PrismaClient()
 
@@ -30,15 +30,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
     }
 
-    const token = sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1d' })
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
+    const token = await new jose.SignJWT({ userId: user.id })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('1d')
+      .sign(secret)
+
     console.log(`Token generated for user: ${email}`)
 
-    const response = NextResponse.json({ message: 'Login successful' }, { status: 200 })
+    const response = NextResponse.json({ 
+      message: 'Login successful',
+      user: { id: user.id, email: user.email, username: user.username }
+    }, { status: 200 })
     
     response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 86400, // 1 day in seconds
       path: '/',
     })
