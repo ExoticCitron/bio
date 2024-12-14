@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 async function verifyJWT(token: string, secret: string): Promise<boolean> {
   try {
     const [encodedHeader, encodedPayload, encodedSignature] = token.split('.')
-    const header = JSON.parse(atob(encodedHeader))
+    //const header = JSON.parse(atob(encodedHeader))
     const payload = JSON.parse(atob(encodedPayload))
 
     if (payload.exp && Date.now() >= payload.exp * 1000) {
