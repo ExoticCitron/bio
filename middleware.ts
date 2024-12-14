@@ -7,8 +7,11 @@ async function verifyJWT(token: string, secret: string): Promise<boolean> {
     const header = JSON.parse(atob(encodedHeader))
     const payload = JSON.parse(atob(encodedPayload))
 
+    console.log('JWT Payload:', payload)
+
     // Check if the token has expired
     if (payload.exp && Date.now() >= payload.exp * 1000) {
+      console.log('Token has expired')
       return false
     }
 
@@ -34,6 +37,7 @@ async function verifyJWT(token: string, secret: string): Promise<boolean> {
       dataBuffer
     )
 
+    console.log('JWT Verification result:', isValid)
     return isValid
   } catch (error) {
     console.error('JWT verification error:', error)
@@ -66,6 +70,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/dashboard/:path*',
+  matcher: ['/dashboard', '/dashboard/:path*'],
 }
 
