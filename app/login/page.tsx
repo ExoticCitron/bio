@@ -29,7 +29,7 @@ export default function LoginPage() {
       console.log('Login response:', data)
       if (response.ok) {
         console.log('Login successful, redirecting to dashboard')
-        window.location.href = '/dashboard'
+        window.location.href = '/@dashboard'
       } else {
         console.error('Login failed:', data.error)
         setError(data.error || 'An error occurred during login')
