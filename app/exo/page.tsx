@@ -1,9 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import { Diamond, Star, Trophy, Clock, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 
@@ -96,29 +95,21 @@ export default function BioLink() {
           </div>
 
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)]">
-              {presence?.discord_user?.username || "Loading..."}
-            </h1>
-            <p className="text-gray-400">
+            <div className="flex items-center justify-center space-x-2">
+              <h1 className="text-2xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)]">
+                {presence?.discord_user?.username || "Loading..."}
+              </h1>
+              {/* Verified Badge */}
+              <div className="relative group">
+                <Crown className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                <span className="absolute left-1/2 -translate-x-1/2 -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm font-medium whitespace-nowrap text-white filter drop-shadow-[0_0_8px_rgba(255,255,255,1)]">
+                  founder
+                </span>
+              </div>
+            </div>
+            <p className="text-gray-400 mt-2">
               {CUSTOM_STATUS || (presence?.discord_status ? presence.discord_status : "No Discord Status")}
             </p>
-          </div>
-
-          <div className="flex space-x-2">
-            {["Clock", "Diamond", "Star", "Trophy"].map((icon) => (
-              <Badge
-                key={icon}
-                variant="secondary"
-                className="bg-white/5 hover:bg-white/10 transition-all duration-300 ease-in-out"
-              >
-                <span className="w-4 h-4 mr-1 text-white filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
-                  {icon === "Clock" && <Clock className="w-full h-full" />}
-                  {icon === "Diamond" && <Diamond className="w-full h-full" />}
-                  {icon === "Star" && <Star className="w-full h-full" />}
-                  {icon === "Trophy" && <Trophy className="w-full h-full" />}
-                </span>
-              </Badge>
-            ))}
           </div>
         </div>
 
