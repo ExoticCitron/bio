@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
-import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import { CheckCircle2, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 
-const CUSTOM_STATUS = "chessy wessy"
+const CUSTOM_STATUS = "It's not enough"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
@@ -101,7 +101,7 @@ export default function BioLink() {
               </h1>
               {/* Verified Badge */}
               <div className="relative group">
-                <Crown className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                <CheckCircle2 className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                 <span className="absolute left-1/2 -translate-x-1/2 -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm font-medium whitespace-nowrap text-white filter drop-shadow-[0_0_8px_rgba(255,255,255,1)]">
                   founder
                 </span>
@@ -192,7 +192,22 @@ export default function BioLink() {
                 <div className="flex items-start space-x-4">
                   {/* Code Icon */}
                   <div className="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center">
-                    <Code2 className="w-8 h-8 text-blue-400" />
+                    {activity.name.toLowerCase().includes("code") || activity.name.toLowerCase().includes("dev") ? (
+                      <div className="flex gap-[2px]">
+                        {[0.3, 0.5, 0.7, 0.5].map((height, i) => (
+                          <div
+                            key={i}
+                            className="w-[3px] animate-pulse rounded-full bg-blue-400"
+                            style={{
+                              height: `${height * 40}px`,
+                              animationDelay: `${i * 0.15}s`,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <Code2 className="w-8 h-8 text-blue-400" />
+                    )}
                   </div>
 
                   <div className="flex-1 min-w-0">
