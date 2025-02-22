@@ -6,7 +6,7 @@ import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 
-const CUSTOM_STATUS = "It's not enough"
+const CUSTOM_STATUS = "chessy wessy"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
@@ -62,10 +62,10 @@ export default function BioLink() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#000033] text-white flex items-center justify-center p-4 relative overflow-hidden">
       <Snowfall />
-      <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-black mix-blend-overlay" />
-      <Card className="w-full max-w-md bg-black/40 backdrop-blur-xl border-gray-800 p-8 rounded-xl space-y-6 relative z-10">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-[#000033] mix-blend-overlay" />
+      <Card className="w-full max-w-md bg-[#000033]/40 backdrop-blur-xl border border-cyan-500/30 p-8 rounded-xl space-y-6 relative z-10 shadow-[0_0_15px_rgba(0,255,255,0.3)] before:absolute before:inset-0 before:bg-gradient-to-b before:from-cyan-500/10 before:to-transparent before:rounded-xl before:-z-10">
         {/* Profile Section */}
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
@@ -103,7 +103,7 @@ export default function BioLink() {
               <div className="relative group">
                 <Crown className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                 <span className="absolute left-1/2 -translate-x-1/2 -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm font-medium whitespace-nowrap text-white filter drop-shadow-[0_0_8px_rgba(255,255,255,1)]">
-                  founder
+                  hunter's association
                 </span>
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function BioLink() {
         {presence?.listening_to_spotify && presence.spotify && (
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-            <div className="relative bg-black/50 rounded-lg p-4 flex flex-col space-y-4 border border-gray-800">
+            <div className="relative bg-[#000033]/50 rounded-lg p-4 flex flex-col space-y-4 border border-cyan-500/20 shadow-[0_0_10px_rgba(0,255,255,0.15)]">
               {/* Spotify Header - Smaller size */}
               <div className="flex items-center gap-2">
                 <span className="text-[13px] text-gray-400 font-medium">Listening to Spotify</span>
@@ -182,7 +182,7 @@ export default function BioLink() {
           .map((activity) => (
             <div key={activity.id} className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-black/50 rounded-lg p-4 flex flex-col space-y-4 border border-gray-800">
+              <div className="relative bg-[#000033]/50 rounded-lg p-4 flex flex-col space-y-4 border border-cyan-500/20 shadow-[0_0_10px_rgba(0,255,255,0.15)]">
                 {/* Activity Status */}
                 <div className="flex items-center gap-2">
                   <span className="text-[13px] text-gray-400 font-medium">Playing</span>
