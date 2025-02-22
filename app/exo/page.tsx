@@ -103,7 +103,7 @@ export default function BioLink() {
               <div className="relative group">
                 <Crown className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                 <span className="absolute left-1/2 -translate-x-1/2 -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm font-medium whitespace-nowrap text-white filter drop-shadow-[0_0_8px_rgba(255,255,255,1)]">
-                  hunter's association
+                  hunter&apos;s association
                 </span>
               </div>
             </div>
