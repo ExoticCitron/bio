@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
-import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import { Crown, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 
-const CUSTOM_STATUS = "chessy wessy"
+const CUSTOM_STATUS = "Sakuta 👑"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
@@ -115,64 +115,105 @@ export default function BioLink() {
 
         {/* Spotify Status */}
         {presence?.listening_to_spotify && presence.spotify && (
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-            <div className="relative bg-[#000033]/50 rounded-lg p-4 flex flex-col space-y-4 border border-cyan-500/20 shadow-[0_0_10px_rgba(0,255,255,0.15)]">
-              {/* Spotify Header - Smaller size */}
-              <div className="flex items-center gap-2">
-                <span className="text-[13px] text-gray-400 font-medium">Listening to Spotify</span>
-                <Music2 className="w-3.5 h-3.5 text-gray-400" />
-              </div>
-
-              <div className="flex items-start space-x-4">
-                {/* Album Art */}
-                <div className="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    src={presence.spotify.album_art_url || "/placeholder.svg"}
-                    alt="Album Art"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  {/* Song Title */}
-                  <h3 className="text-[16px] font-semibold text-white mb-1 truncate">{presence.spotify.song}</h3>
-
-                  {/* Artist Name */}
-                  <p className="text-[13px] text-gray-400 truncate">{presence.spotify.artist}</p>
-                </div>
-
-                {/* Visualizer */}
-                <div className="flex gap-[2px] self-center">
-                  {[0.4, 0.7, 0.5, 0.3].map((height, i) => (
-                    <div
-                      key={i}
-                      className="w-[3px] animate-pulse rounded-full bg-gray-300"
-                      style={{
-                        height: `${height * 16}px`,
-                        animationDelay: `${i * 0.15}s`,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400 tabular-nums">
-                  {formatTime(Date.now() - presence.spotify.timestamps.start)}
-                </span>
-                <div className="flex-1 h-[3px] bg-gray-700 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-white rounded-full transition-all duration-1000 ease-linear"
-                    style={{ width: `${spotifyProgress}%` }}
-                  />
-                </div>
-                <span className="text-xs text-gray-400 tabular-nums">
-                  {formatTime(presence.spotify.timestamps.end - presence.spotify.timestamps.start)}
-                </span>
+          <div className="spotify">
+            <div className="spotify-content">
+              <img src={presence.spotify.album_art_url || "/placeholder.svg"} alt="Album Art" className="album" />
+              <div className="text-content">
+                <div className="artist">{presence.spotify.song}</div>
+                <div className="song">by {presence.spotify.artist}</div>
               </div>
             </div>
+
+            {/* Progress Bar */}
+            <div className="progress-container">
+              <span className="time">{formatTime(Date.now() - presence.spotify.timestamps.start)}</span>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{ width: `${spotifyProgress}%` }}></div>
+              </div>
+              <span className="time">
+                {formatTime(presence.spotify.timestamps.end - presence.spotify.timestamps.start)}
+              </span>
+            </div>
+
+            {/* Style block */}
+            <style jsx>{`
+              .spotify {
+                background-color: rgba(0, 0, 51, 0.8);
+                backdrop-filter: blur(8px);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                padding: 25px;
+                border-radius: 10px;
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(0, 255, 255, 0.2);
+                transition: background-color 0.3s ease;
+              }
+              
+              .spotify-content {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 15px;
+              }
+              
+              .spotify img.album {
+                width: 70px;
+                height: 70px;
+                border-radius: 5px;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+                margin-right: 15px;
+              }
+              
+              .text-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+              }
+              
+              .spotify .artist {
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 5px;
+              }
+              
+              .spotify .song {
+                font-size: 14px;
+                color: #b3b3b3;
+              }
+              
+              .progress-container {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                gap: 8px;
+              }
+              
+              .progress-bar {
+                flex: 1;
+                height: 4px;
+                background-color: rgba(83, 83, 83, 0.5);
+                border-radius: 2px;
+                overflow: hidden;
+              }
+              
+              .progress-fill {
+                height: 100%;
+                background-color: rgba(0, 255, 255, 0.7);
+                border-radius: 2px;
+                transition: width 1s linear;
+              }
+              
+              .time {
+                font-size: 12px;
+                color: #b3b3b3;
+                min-width: 35px;
+              }
+              
+              .spotify:hover {
+                background-color: rgba(0, 0, 70, 0.9);
+                cursor: pointer;
+              }
+            `}</style>
           </div>
         )}
 
