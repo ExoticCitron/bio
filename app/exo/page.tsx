@@ -6,7 +6,7 @@ import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 
-const CUSTOM_STATUS = "Sakuta 👑"
+const CUSTOM_STATUS = "Sakuta"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
@@ -96,15 +96,12 @@ export default function BioLink() {
 
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2">
-              <h1 className="text-2xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)]">
-                {presence?.discord_user?.username || "Loading..."}
-              </h1>
-              {/* Verified Badge */}
+              {/* Rainbow gradient username */}
+              <h1 className="text-2xl font-bold rainbow-text">{presence?.discord_user?.username || "Loading..."}</h1>
+              {/* Verified Badge with styled tooltip */}
               <div className="relative group">
                 <Crown className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-                <span className="absolute left-1/2 -translate-x-1/2 -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm font-medium whitespace-nowrap text-white filter drop-shadow-[0_0_8px_rgba(255,255,255,1)]">
-                  hunter&apos;s association
-                </span>
+                <div className="tooltip">owner</div>
               </div>
             </div>
             <p className="text-gray-400 mt-2">
@@ -114,7 +111,7 @@ export default function BioLink() {
         </div>
 
         {/* Spotify Status */}
-        {presence?.listening_to_spotify && presence.spotify && (
+        {presence?.listening_to_spotify && presence.spotify ? (
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
             <div className="relative bg-[#000033]/50 rounded-lg p-4 flex flex-col space-y-4 border border-cyan-500/20 shadow-[0_0_10px_rgba(0,255,255,0.15)]">
@@ -174,7 +171,7 @@ export default function BioLink() {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
 
         {/* Discord Activities */}
         {presence?.activities
@@ -256,6 +253,76 @@ export default function BioLink() {
           </a>
         </div>
       </Card>
+
+      {/* Global styles that will apply regardless of Spotify status */}
+      <style jsx global>{`
+        /* Tooltip styling */
+        .tooltip {
+          position: absolute;
+          top: -10px;
+          left: 50%;
+          transform: translateX(-50%) translateY(-100%);
+          background-color: rgba(0, 20, 60, 0.9);
+          color: white;
+          padding: 6px 10px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 500;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.2s ease;
+          border: 1px solid rgba(56, 189, 248, 0.6);
+          box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+          z-index: 50;
+        }
+        
+        .tooltip:after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: rgba(0, 20, 60, 0.9) transparent transparent transparent;
+        }
+        
+        .group:hover .tooltip {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(-50%) translateY(-110%);
+        }
+      
+        .rainbow-text {
+          background-image: linear-gradient(
+            to right,
+            #1E40AF, /* blue */
+            #4F46E5, /* indigo */
+            #EAB308, /* yellow */
+            #F97316, /* orange */
+            #8B4513, /* brown */
+            #1E40AF, /* blue again */
+            #4F46E5  /* indigo again to ensure smooth transition */
+          );
+          background-size: 200% 100%;
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          -webkit-text-fill-color: transparent;
+          animation: continuous-flow 12s linear infinite;
+          filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+        }
+        
+        @keyframes continuous-flow {
+          0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 200% 50%;
+          }
+        }
+      `}</style>
     </div>
   )
 }
