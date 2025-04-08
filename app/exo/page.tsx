@@ -1,8 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import type React from "react"
+
+import { useEffect, useState, useRef } from "react"
 import { Card } from "@/components/ui/card"
-import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2, CheckCircle, Zap, Star } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 
@@ -12,6 +14,9 @@ export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
   const [activityElapsedTime, setActivityElapsedTime] = useState<Record<string, string>>({})
   const [spotifyProgress, setSpotifyProgress] = useState(0)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRef = useRef<HTMLDivElement>(null)
+  const lastMousePos = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
     const updateElapsedTimes = () => {
@@ -61,11 +66,61 @@ export default function BioLink() {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+
+    // Check if mouse has actually moved significantly to prevent glitching
+    if (Math.abs(e.clientX - lastMousePos.current.x) < 2 && Math.abs(e.clientY - lastMousePos.current.y) < 2) {
+      return
+    }
+
+    // Update last mouse position
+    lastMousePos.current = { x: e.clientX, y: e.clientY }
+
+    const card = cardRef.current
+    const rect = card.getBoundingClientRect()
+
+    // Calculate mouse position relative to the card center
+    const x = e.clientX - rect.left - rect.width / 2
+    const y = e.clientY - rect.top - rect.height / 2
+
+    // Calculate tilt values (adjust the divisor to control tilt intensity)
+    const tiltX = -(y / 20)
+    const tiltY = x / 20
+
+    setTilt({ x: tiltX, y: tiltY })
+  }
+
+  const handleMouseLeave = () => {
+    // Reset tilt when mouse leaves the card
+    setTilt({ x: 0, y: 0 })
+  }
+
   return (
-    <div className="min-h-screen bg-[#000033] text-white flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen text-white flex items-center justify-center p-4 relative overflow-hidden">
       <Snowfall />
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-[#000033] mix-blend-overlay" />
-      <Card className="w-full max-w-md bg-[#000033]/40 backdrop-blur-xl border border-cyan-500/30 p-8 rounded-xl space-y-6 relative z-10 shadow-[0_0_15px_rgba(0,255,255,0.3)] before:absolute before:inset-0 before:bg-gradient-to-b before:from-cyan-500/10 before:to-transparent before:rounded-xl before:-z-10">
+      {/* Background image instead of gradient */}
+      <div className="absolute inset-0 z-0">
+        <img src="/images/background.png" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/20" /> {/* Light overlay for better readability */}
+      </div>
+
+      {/* Updated card styling with Discord-like metallic look */}
+      <Card
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="card-container w-full max-w-md bg-[#2f3136]/60 backdrop-blur-sm border border-[#40444b]/80 p-8 rounded-xl space-y-6 relative z-10 shadow-[0_0_15px_rgba(0,0,0,0.5)] before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/10 before:to-transparent before:rounded-xl before:-z-10 transition-transform duration-200 ease-out"
+        style={{
+          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        }}
+      >
+        <div
+          className="absolute inset-0 rounded-xl bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            backgroundPosition: `${50 + tilt.y * 2}% ${50 + tilt.x * 2}%`,
+          }}
+        />
         {/* Profile Section */}
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
@@ -98,10 +153,28 @@ export default function BioLink() {
             <div className="flex items-center justify-center space-x-2">
               {/* Rainbow gradient username */}
               <h1 className="text-2xl font-bold rainbow-text">{presence?.discord_user?.username || "Loading..."}</h1>
-              {/* Verified Badge with styled tooltip */}
-              <div className="relative group">
-                <Crown className="w-5 h-5 text-white animate-pulse filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-                <div className="tooltip">owner</div>
+              {/* Badges with styled tooltips */}
+              <div className="flex items-center space-x-1">
+                <div className="badge-container">
+                  <Crown className="badge-icon w-5 h-5 text-white animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-tooltip">owner</div>
+                  <div className="sparkle-container"></div>
+                </div>
+                <div className="badge-container">
+                  <CheckCircle className="badge-icon w-5 h-5 text-white animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-tooltip">verified</div>
+                  <div className="sparkle-container"></div>
+                </div>
+                <div className="badge-container">
+                  <Zap className="badge-icon w-5 h-5 text-white animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-tooltip">booster</div>
+                  <div className="sparkle-container"></div>
+                </div>
+                <div className="badge-container">
+                  <Star className="badge-icon w-5 h-5 text-white animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-tooltip">supporter</div>
+                  <div className="sparkle-container"></div>
+                </div>
               </div>
             </div>
             <p className="text-gray-400 mt-2">
@@ -110,11 +183,11 @@ export default function BioLink() {
           </div>
         </div>
 
-        {/* Spotify Status */}
+        {/* Spotify Status - Updated styling */}
         {presence?.listening_to_spotify && presence.spotify ? (
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-            <div className="relative bg-[#000033]/50 rounded-lg p-4 flex flex-col space-y-4 border border-cyan-500/20 shadow-[0_0_10px_rgba(0,255,255,0.15)]">
+            <div className="relative bg-[#36393f]/70 rounded-lg p-4 flex flex-col space-y-4 border border-[#40444b]/80 shadow-[0_0_10px_rgba(0,0,0,0.2)]">
               {/* Spotify Header - Smaller size */}
               <div className="flex items-center gap-2">
                 <span className="text-[13px] text-gray-400 font-medium">Listening to Spotify</span>
@@ -173,13 +246,13 @@ export default function BioLink() {
           </div>
         ) : null}
 
-        {/* Discord Activities */}
+        {/* Discord Activities - Updated styling */}
         {presence?.activities
           ?.filter((activity) => activity.name !== "Spotify")
           .map((activity) => (
             <div key={activity.id} className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-[#000033]/50 rounded-lg p-4 flex flex-col space-y-4 border border-cyan-500/20 shadow-[0_0_10px_rgba(0,255,255,0.15)]">
+              <div className="relative bg-[#36393f]/70 rounded-lg p-4 flex flex-col space-y-4 border border-[#40444b]/80 shadow-[0_0_10px_rgba(0,0,0,0.2)]">
                 {/* Activity Status */}
                 <div className="flex items-center gap-2">
                   <span className="text-[13px] text-gray-400 font-medium">Playing</span>
@@ -188,7 +261,7 @@ export default function BioLink() {
 
                 <div className="flex items-start space-x-4">
                   {/* Code Icon */}
-                  <div className="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center">
+                  <div className="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0 bg-gradient-to-br from-[#4f545c]/40 to-[#36393f]/40 flex items-center justify-center">
                     {activity.name.toLowerCase().includes("code") || activity.name.toLowerCase().includes("dev") ? (
                       <div className="flex gap-[2px]">
                         {[0.3, 0.5, 0.7, 0.5].map((height, i) => (
@@ -256,13 +329,13 @@ export default function BioLink() {
 
       {/* Global styles that will apply regardless of Spotify status */}
       <style jsx global>{`
-        /* Tooltip styling */
-        .tooltip {
+        /* Badge tooltip styling */
+        .badge-tooltip {
           position: absolute;
           top: -10px;
           left: 50%;
           transform: translateX(-50%) translateY(-100%);
-          background-color: rgba(0, 20, 60, 0.9);
+          background-color: rgba(47, 49, 54, 0.95);
           color: white;
           padding: 6px 10px;
           border-radius: 6px;
@@ -272,12 +345,13 @@ export default function BioLink() {
           opacity: 0;
           visibility: hidden;
           transition: all 0.2s ease;
-          border: 1px solid rgba(56, 189, 248, 0.6);
-          box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+          border: 1px solid rgba(79, 84, 92, 0.8);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
           z-index: 50;
+          pointer-events: none;
         }
         
-        .tooltip:after {
+        .badge-tooltip:after {
           content: "";
           position: absolute;
           top: 100%;
@@ -285,13 +359,253 @@ export default function BioLink() {
           margin-left: -5px;
           border-width: 5px;
           border-style: solid;
-          border-color: rgba(0, 20, 60, 0.9) transparent transparent transparent;
+          border-color: rgba(47, 49, 54, 0.95) transparent transparent transparent;
         }
         
-        .group:hover .tooltip {
+        .badge-container {
+          position: relative;
+          cursor: pointer;
+          display: inline-block;
+          padding: 2px;
+        }
+        
+        .badge-container:hover .badge-tooltip {
           opacity: 1;
           visibility: visible;
           transform: translateX(-50%) translateY(-110%);
+        }
+        
+        /* Synchronized pulse animation for all badges */
+        @keyframes pulse-sync {
+          0% {
+            opacity: 0.6;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0.6;
+          }
+        }
+        
+        .animate-pulse-sync {
+          animation: pulse-sync 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* Enhanced sparkle effect */
+        .sparkle-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+        }
+        
+        .badge-container:hover .sparkle-container::before,
+        .badge-container:hover .sparkle-container::after {
+          content: '';
+          position: absolute;
+          width: 3px;
+          height: 3px;
+          background-color: white;
+          border-radius: 50%;
+          box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.8);
+          opacity: 0;
+        }
+        
+        /* Top sparkle */
+        .badge-container:hover .sparkle-container::before {
+          top: -5px;
+          left: 50%;
+          transform: translateX(-50%);
+          animation: sparkleTop 1.2s ease-out infinite;
+        }
+        
+        /* Right sparkle */
+        .badge-container:nth-child(1):hover .sparkle-container::after {
+          top: 50%;
+          right: -5px;
+          transform: translateY(-50%);
+          animation: sparkleRight 1.2s ease-out 0.1s infinite;
+        }
+        
+        /* Bottom sparkle - using additional elements */
+        .badge-container:hover .sparkle-container::after {
+          content: '';
+          bottom: -5px;
+          left: 50%;
+          top: auto;
+          transform: translateX(-50%);
+          animation: sparkleBottom 1.2s ease-out 0.2s infinite;
+        }
+        
+        /* Left sparkle - using additional elements */
+        .badge-container:nth-child(2):hover .sparkle-container::after {
+          content: '';
+          top: 50%;
+          left: -5px;
+          right: auto;
+          transform: translateY(-50%);
+          animation: sparkleLeft 1.2s ease-out 0.3s infinite;
+        }
+        
+        /* Diagonal sparkles for other badges */
+        .badge-container:nth-child(3):hover .sparkle-container::after {
+          content: '';
+          top: -5px;
+          right: -5px;
+          left: auto;
+          transform: none;
+          animation: sparkleDiagonal1 1.2s ease-out 0.15s infinite;
+        }
+        
+        .badge-container:nth-child(4):hover .sparkle-container::after {
+          content: '';
+          bottom: -5px;
+          right: -5px;
+          top: auto;
+          left: auto;
+          transform: none;
+          animation: sparkleDiagonal2 1.2s ease-out 0.25s infinite;
+        }
+        
+        /* Add more sparkles with pseudo-elements on the container */
+        .badge-container:hover::before,
+        .badge-container:hover::after {
+          content: '';
+          position: absolute;
+          width: 2px;
+          height: 2px;
+          background-color: white;
+          border-radius: 50%;
+          box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.7);
+          opacity: 0;
+        }
+        
+        .badge-container:hover::before {
+          top: 0;
+          left: 0;
+          animation: sparkleDiagonal3 1s ease-out 0.4s infinite;
+        }
+        
+        .badge-container:hover::after {
+          bottom: 0;
+          left: 0;
+          animation: sparkleDiagonal4 1s ease-out 0.5s infinite;
+        }
+        
+        /* Sparkle animations */
+        @keyframes sparkleTop {
+          0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-15px);
+          }
+        }
+        
+        @keyframes sparkleRight {
+          0% {
+            opacity: 0;
+            transform: translateY(-50%) translateX(0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-50%) translateX(15px);
+          }
+        }
+        
+        @keyframes sparkleBottom {
+          0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(15px);
+          }
+        }
+        
+        @keyframes sparkleLeft {
+          0% {
+            opacity: 0;
+            transform: translateY(-50%) translateX(0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-50%) translateX(-15px);
+          }
+        }
+        
+        @keyframes sparkleDiagonal1 {
+          0% {
+            opacity: 0;
+            transform: translate(0, 0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translate(10px, -10px);
+          }
+        }
+        
+        @keyframes sparkleDiagonal2 {
+          0% {
+            opacity: 0;
+            transform: translate(0, 0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translate(10px, 10px);
+          }
+        }
+        
+        @keyframes sparkleDiagonal3 {
+          0% {
+            opacity: 0;
+            transform: translate(0, 0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translate(-10px, -10px);
+          }
+        }
+        
+        @keyframes sparkleDiagonal4 {
+          0% {
+            opacity: 0;
+            transform: translate(0, 0);
+          }
+          30% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            transform: translate(-10px, 10px);
+          }
         }
       
         .rainbow-text {
@@ -326,4 +640,3 @@ export default function BioLink() {
     </div>
   )
 }
-
