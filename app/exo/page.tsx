@@ -204,7 +204,7 @@ export default function BioLink() {
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
                       <CodeIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
-                    <div className="badge-tooltip">coder</div>
+                    <div className="badge-tooltip">developer</div>
                     <div className="sparkle-container "></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
