@@ -8,6 +8,8 @@ import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2, CheckCi
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 import { useMobile } from "@/hooks/use-mobile"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const CUSTOM_STATUS = "Sakuta"
 
@@ -19,6 +21,8 @@ export default function BioLink() {
   const cardRef = useRef<HTMLDivElement>(null)
   const lastMousePos = useRef({ x: 0, y: 0 })
   const isMobile = useMobile()
+
+  // Show error toast if Lanyard data fails to load
 
   useEffect(() => {
     const updateElapsedTimes = () => {
@@ -98,8 +102,33 @@ export default function BioLink() {
     setTilt({ x: 0, y: 0 })
   }
 
+  useEffect(() => {
+    // Show toast notification when the page loads
+    toast.success("Successfully loaded @hoithung", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+  }, [])
+
   return (
     <div className="min-h-screen text-white flex items-center justify-center p-4 relative overflow-hidden">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Snowfall />
       {/* Background image instead of gradient */}
       <div className="absolute inset-0 z-0">
@@ -656,6 +685,58 @@ export default function BioLink() {
           100% {
             background-position: 200% 50%;
           }
+        }
+
+        /* Toast styles */
+        .Toastify__toast-container {
+          width: auto;
+          max-width: 320px;
+        }
+
+        @media only screen and (max-width: 480px) {
+          .Toastify__toast-container {
+            width: 90%;
+            max-width: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+
+        .Toastify__toast {
+          border-radius: 12px;
+          padding: 12px;
+          margin-bottom: 12px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(47, 49, 54, 0.85) !important;
+        }
+
+        .Toastify__toast--success {
+          border-left: 4px solid #43b581;
+        }
+
+        .Toastify__toast--error {
+          border-left: 4px solid #f04747;
+        }
+
+        .Toastify__progress-bar {
+          height: 3px;
+          background: linear-gradient(to right, #43b581, #4f46e5) !important;
+        }
+
+        .Toastify__toast--error .Toastify__progress-bar {
+          background: linear-gradient(to right, #f04747, #ff7a6b) !important;
+        }
+
+        .Toastify__close-button {
+          color: rgba(255, 255, 255, 0.6);
+          opacity: 0.7;
+        }
+
+        .Toastify__close-button:hover {
+          color: rgba(255, 255, 255, 0.9);
+          opacity: 1;
         }
       `}</style>
     </div>
