@@ -362,7 +362,7 @@ export default function BioLink() {
         {/* Social Links */}
         <div className="flex justify-center space-x-4 mt-4 sm:mt-6">
           <a
-            href="https://github.com/ExoticCitron"
+            href="https://github.com/mssj2008/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
@@ -370,7 +370,7 @@ export default function BioLink() {
             <Github className="w-5 h-5 sm:w-6 sm:h-6 drop-shadow-[0_0_12px_rgba(255,255,255,1)]" />
           </a>
           <a
-            href="https://discord.com/users/1245114941610922007"
+            href="https://discord.com/users/717690892948996107"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
@@ -378,7 +378,7 @@ export default function BioLink() {
             <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 drop-shadow-[0_0_12px_rgba(255,255,255,1)]" />
           </a>
           <a
-            href="https://exodevs.space/exo"
+            href="https://exodevs.space/mssjjssm"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
