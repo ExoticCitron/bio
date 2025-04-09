@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useEffect, useState, useRef } from "react"
 import { Card } from "@/components/ui/card"
-import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2, Check, Zap, Star, Bolt } from "lucide-react"
+import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 import ConstructionIcon from '@mui/icons-material/Construction';
