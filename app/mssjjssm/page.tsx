@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useEffect, useState, useRef } from "react"
 import { Card } from "@/components/ui/card"
-import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import {  Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 import ConstructionIcon from "@mui/icons-material/Construction"
@@ -194,16 +194,9 @@ export default function BioLink() {
                 <div className="flex gap-2">
                   <div className="badge-container flex items-center justify-center">
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <Crown className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-                    </div>
-                    <div className="badge-tooltip">owner</div>
-                    <div className="sparkle-container"></div>
-                  </div>
-                  <div className="badge-container flex items-center justify-center">
-                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
                       <CodeIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
-                    <div className="badge-tooltip">coder</div>
+                    <div className="badge-tooltip">developer</div>
                     <div className="sparkle-container "></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
