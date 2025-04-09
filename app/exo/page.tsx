@@ -7,10 +7,10 @@ import { Card } from "@/components/ui/card"
 import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
-import ConstructionIcon from '@mui/icons-material/Construction';
-import CodeIcon from '@mui/icons-material/Code';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import BoltIcon from '@mui/icons-material/Bolt';
+import ConstructionIcon from "@mui/icons-material/Construction"
+import CodeIcon from "@mui/icons-material/Code"
+import DoneAllIcon from "@mui/icons-material/DoneAll"
+import BoltIcon from "@mui/icons-material/Bolt"
 import { useMobile } from "@/hooks/use-mobile"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -108,7 +108,7 @@ export default function BioLink() {
 
   useEffect(() => {
     // Show toast notification when the page loads
-    toast.success("Successfully loaded @exo", {
+    toast.success("Successfully loaded @hoithung", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -191,41 +191,43 @@ export default function BioLink() {
                 {presence?.discord_user?.username || "Loading..."}
               </h1>
               {/* Badges with styled tooltips */}
-              <div className="flex items-center space-x-1">
-                <div className="badge-container">
-                  <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                    <Crown className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+              <div className="flex items-center justify-center">
+                <div className="flex gap-2">
+                  <div className="badge-container flex items-center justify-center">
+                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
+                      <Crown className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="badge-tooltip">owner</div>
+                    <div className="sparkle-container"></div>
                   </div>
-                  <div className="badge-tooltip">owner</div>
-                  <div className="sparkle-container"></div>
-                </div>
-                <div className="badge-container">
-                  <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                    <CodeIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-container flex items-center justify-center">
+                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
+                      <CodeIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="badge-tooltip">coder</div>
+                    <div className="sparkle-container "></div>
                   </div>
-                  <div className="badge-tooltip">coder</div>
-                  <div className="sparkle-container "></div>
-                </div>
-                <div className="badge-container">
-                  <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                    <DoneAllIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-purple-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-container flex items-center justify-center">
+                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
+                      <DoneAllIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-purple-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="badge-tooltip">verified</div>
+                    <div className="sparkle-container"></div>
                   </div>
-                  <div className="badge-tooltip">verified</div>
-                  <div className="sparkle-container"></div>
-                </div>
-                <div className="badge-container">
-                  <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                    <BoltIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-container flex items-center justify-center">
+                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
+                      <BoltIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="badge-tooltip">booster</div>
+                    <div className="sparkle-container"></div>
                   </div>
-                  <div className="badge-tooltip">booster</div>
-                  <div className="sparkle-container"></div>
-                </div>
-                <div className="badge-container">
-                  <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                    <ConstructionIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-gray-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                  <div className="badge-container flex items-center justify-center">
+                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
+                      <ConstructionIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-gray-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="badge-tooltip">staff</div>
+                    <div className="sparkle-container"></div>
                   </div>
-                  <div className="badge-tooltip">staff</div>
-                  <div className="sparkle-container"></div>
                 </div>
               </div>
             </div>
@@ -435,7 +437,9 @@ export default function BioLink() {
           position: relative;
           cursor: pointer;
           display: inline-block;
-          padding: 2px;
+          width: 20px;
+          height: 20px;
+          margin: 0 1px;
         }
         
         .badge-container:hover .badge-tooltip {
