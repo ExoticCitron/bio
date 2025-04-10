@@ -4,7 +4,9 @@ import type React from "react"
 
 import { useEffect, useState, useRef } from "react"
 import { Card } from "@/components/ui/card"
-import { Crown, Music2, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import { CIcon } from "@coreui/icons-react"
+import { cibSpotify } from "@coreui/icons"
+import { Crown, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
 import Snowfall from "../../components/Snowfall"
 import ConstructionIcon from "@mui/icons-material/Construction"
@@ -245,7 +247,11 @@ export default function BioLink() {
               {/* Spotify Header - Smaller size */}
               <div className="flex items-center gap-2">
                 <span className="text-[12px] sm:text-[13px] text-gray-400 font-medium">Listening to Spotify</span>
-                <Music2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-400" />
+                <CIcon
+                  icon={cibSpotify}
+                  className="w-3 h-3 sm:w-3.5 sm:h-3.5"
+                  style={{ color: "green", fill: "green" }}
+                />
               </div>
 
               <div className="flex items-start space-x-3 sm:space-x-4">
@@ -288,10 +294,20 @@ export default function BioLink() {
                 <span className="text-[10px] sm:text-xs text-gray-400 tabular-nums">
                   {formatTime(Date.now() - presence.spotify.timestamps.start)}
                 </span>
-                <div className="flex-1 h-[2px] sm:h-[3px] bg-gray-700 rounded-full overflow-hidden">
+                <div className="flex-1 h-[2px] sm:h-[3px] bg-gray-700 rounded-full overflow-hidden relative">
+                  {/* Green progress bar */}
                   <div
-                    className="h-full bg-white rounded-full transition-all duration-1000 ease-linear"
+                    className="h-full bg-[#1DB954] rounded-full transition-all duration-1000 ease-linear"
                     style={{ width: `${spotifyProgress}%` }}
+                  />
+
+                  {/* White circle knob */}
+                  <div
+                    className="absolute top-1/2 w-[8px] h-[8px] bg-white rounded-full shadow-md transform -translate-y-1/2"
+                    style={{
+                      left: `calc(${spotifyProgress}% - 4px)`,
+                      display: spotifyProgress > 0 ? "block" : "none",
+                    }}
                   />
                 </div>
                 <span className="text-[10px] sm:text-xs text-gray-400 tabular-nums">
