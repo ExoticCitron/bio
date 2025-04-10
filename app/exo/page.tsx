@@ -108,7 +108,7 @@ export default function BioLink() {
 
   useEffect(() => {
     // Show toast notification when the page loads
-    toast.success("Successfully loaded @hoithung", {
+    toast.success("Successfully loaded @exo", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
