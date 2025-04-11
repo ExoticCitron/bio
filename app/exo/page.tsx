@@ -220,7 +220,7 @@ export default function BioLink() {
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
                       <GiSpinningSword className="badge-icon w-5 h-5 sm:w-5 sm:h-5 text-blue-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
-                    <div className="badge-tooltip">hunter's association</div>
+                    <div className="badge-tooltip">hunter&apos;s association</div>
                     <div className="sparkle-container"></div>
                   </div>
                 </div>
