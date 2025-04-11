@@ -6,18 +6,18 @@ import { useEffect, useState, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { CIcon } from "@coreui/icons-react"
 import { cibSpotify } from "@coreui/icons"
-import {  Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import { Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
-import { GiCrown } from "react-icons/gi";
-import { GiSpinningSword } from "react-icons/gi";
+import { GiCrown } from "react-icons/gi"
+import { GiSpinningSword } from "react-icons/gi"
 import Snowfall from "../../components/Snowfall"
-import { MdOutlineCode } from "react-icons/md";
-import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import { MdOutlineCode } from "react-icons/md"
+import { IoCheckmarkDoneSharp } from "react-icons/io5"
 import { useMobile } from "@/hooks/use-mobile"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const CUSTOM_STATUS = "Sakuta"
+const CUSTOM_STATUS = "Death is far from distragedy 😉"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
@@ -194,31 +194,34 @@ export default function BioLink() {
               </h1>
               {/* Badges with styled tooltips */}
               <div className="flex items-center justify-center">
-                <div className="flex gap-2">
+                <div className="badges-container bg-black/20 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center gap-2 border border-[#40444b]/50 overflow-visible relative">
+                  {/* Shine effect container - kept inside the border */}
+                  <div className="shine-container absolute inset-0 rounded-full overflow-hidden pointer-events-none"></div>
+
                   <div className="badge-container flex items-center justify-center">
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(202, 138, 4, 0.8]">
-                      <GiCrown className="badge-icon w-6 h-6 sm:w-6 sm:h-6 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                      <GiCrown className="badge-icon w-5 h-6 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">owner</div>
                     <div className="sparkle-container"></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <MdOutlineCode className="badge-icon w-6 h-6 sm:w-6 sm:h-6 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                      <MdOutlineCode className="badge-icon w-5 h-6 sm:w-5 sm:h-5 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">developer</div>
                     <div className="sparkle-container "></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <IoCheckmarkDoneSharp className="badge-icon w-5 h-5 sm:w-6 sm:h-6 text-purple-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                      <IoCheckmarkDoneSharp className="badge-icon w-5 h-4 sm:w-5 sm:h-5 text-purple-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">verified</div>
                     <div className="sparkle-container"></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
                     <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <GiSpinningSword className="badge-icon w-5 h-5 sm:w-5 sm:h-5 text-blue-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                      <GiSpinningSword className="badge-icon w-5 h-4 sm:w-4 sm:h-5 text-blue-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">hunter&apos;s association</div>
                     <div className="sparkle-container"></div>
@@ -449,6 +452,7 @@ export default function BioLink() {
           width: 20px;
           height: 20px;
           margin: 0 1px;
+          z-index: 10; /* Add z-index to ensure hover works properly */
         }
         
         .badge-container:hover .badge-tooltip {
@@ -669,7 +673,7 @@ export default function BioLink() {
             transform: translate(0, 0);
           }
           30% {
-            opacity: 1;
+            opacity:  1;
           }
           100% {
             opacity: 0;
@@ -770,6 +774,77 @@ export default function BioLink() {
         .Toastify__close-button:hover {
           color: rgba(255, 255, 255, 0.9);
           opacity: 1;
+        }
+        /* Badge container wrapper styling */
+        .badge-container-wrapper {
+          position: relative;
+          transition: all 0.3s ease;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+        
+        .badge-container-wrapper:hover {
+          background-color: rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Add a subtle glow effect to the wrapper */
+        .badge-container-wrapper::before {
+          content: '';
+          position: absolute;
+          inset: -1px;
+          background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent, rgba(255, 255, 255, 0.1), transparent);
+          border-radius: inherit;
+          z-index: -1;
+          animation: rotate-gradient 6s linear infinite;
+        }
+        
+        @keyframes rotate-gradient {
+          0% {
+            background-position: 0% 0%;
+          }
+          100% {
+            background-position: 200% 200%;
+          }
+        }
+        /* Badges container styling */
+        .badges-container {
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: visible !important; /* Ensure sparkles and tooltips can extend outside */
+        }
+        
+        /* Shine effect container */
+        .shine-container {
+          z-index: 1;
+        }
+        
+        .shine-container::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        .badges-container:hover .shine-container::before {
+          opacity: 1;
+          animation: shine 1.5s infinite;
+        }
+
+        /* Ensure tooltips have higher z-index */
+        .badge-tooltip {
+          z-index: 100 !important;
+        }
+        
+        @keyframes shine {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
         }
       `}</style>
     </div>
