@@ -17,7 +17,7 @@ import { useMobile } from "@/hooks/use-mobile"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const CUSTOM_STATUS = "Death is far from distragedy 😉"
+const CUSTOM_STATUS = "Death is far from distragedy"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
@@ -229,7 +229,7 @@ export default function BioLink() {
                 </div>
               </div>
             </div>
-            <p className="text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base">
+            <p className="custom-status text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base">
               {CUSTOM_STATUS || (presence?.discord_status ? presence.discord_status : "No Discord Status")}
             </p>
           </div>
@@ -239,7 +239,7 @@ export default function BioLink() {
         {presence?.listening_to_spotify && presence.spotify ? (
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-            <div className="relative bg-[#36393f]/70 rounded-lg p-3 sm:p-4 flex flex-col space-y-3 sm:space-y-4 border border-[#40444b]/80 shadow-[0_0_10px_rgba(0,0,0,0.2)]">
+            <div className="relative bg-[#36393f]/70 rounded-lg p-3 sm:p-4 flex flex-col space-y-3 sm:space-y-4 border border-[#40444b]/80 shadow-[0_0_10px_rgba(0,0,0,0.2)] spotify-card">
               {/* Spotify Header - Smaller size */}
               <div className="flex items-center gap-2">
                 <span className="text-[12px] sm:text-[13px] text-gray-400 font-medium">Listening to Spotify</span>
@@ -320,7 +320,7 @@ export default function BioLink() {
           .map((activity) => (
             <div key={activity.id} className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-gray-800/10 to-gray-900/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-[#36393f]/70 rounded-lg p-3 sm:p-4 flex flex-col space-y-3 sm:space-y-4 border border-[#40444b]/80 shadow-[0_0_10px_rgba(0,0,0,0.2)]">
+              <div className="relative bg-[#36393f]/70 rounded-lg p-3 sm:p-4 flex flex-col space-y-3 sm:space-y-4 border border-[#40444b]/80 shadow-[0_0_10px_rgba(0,0,0,0.2)] activity-card">
                 {/* Activity Status */}
                 <div className="flex items-center gap-2">
                   <span className="text-[12px] sm:text-[13px] text-gray-400 font-medium">Playing</span>
@@ -405,6 +405,58 @@ export default function BioLink() {
 
       {/* Global styles that will apply regardless of Spotify status */}
       <style jsx global>{`
+        /* Custom Font */
+        @font-face {
+          font-family: 'SoloLevel';
+          src: url('/fonts/SoloLevelDemo.otf') format('opentype'),
+               url('/app/fonts/SoloLevelDemo.otf') format('opentype');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+        
+        .custom-status {
+          font-family: 'SoloLevel', sans-serif;
+        }
+        
+        /* Activity Card Glowing Borders */
+        .activity-card {
+          position: relative;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .activity-card:hover {
+          border-color: rgba(255, 255, 255, 0.4);
+          box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Spotify Card Glowing Border */
+        .spotify-card {
+          position: relative;
+          border: 1px solid rgba(29, 185, 84, 0.2);
+          box-shadow: 0 0 10px rgba(29, 185, 84, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .spotify-card:hover {
+          border-color: rgba(29, 185, 84, 0.4);
+          box-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
+        }
+
+        @keyframes border-pulse {
+          0% {
+            opacity: 0.6;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0.6;
+          }
+        }
+
         /* Custom breakpoint for extra small screens */
         @media (min-width: 475px) {
           .xs\\:flex {
