@@ -13,6 +13,7 @@ import { GiSpinningSword } from "react-icons/gi"
 import Snowfall from "../../components/Snowfall"
 import { MdOutlineCode } from "react-icons/md"
 import { IoCheckmarkDoneSharp } from "react-icons/io5"
+import { GiSeaDragon } from "react-icons/gi";
 import { useMobile } from "@/hooks/use-mobile"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -138,7 +139,7 @@ export default function BioLink() {
       <Snowfall />
       {/* Background image instead of gradient */}
       <div className="absolute inset-0 z-0">
-        <img src="/images/sl.png" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/images/background.png" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20" /> {/* Light overlay for better readability */}
       </div>
 
@@ -203,6 +204,13 @@ export default function BioLink() {
                       <GiCrown className="badge-icon text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">owner</div>
+                    <div className="sparkle-container"></div>
+                  </div>
+                  <div className="badge-container flex items-center justify-center">
+                    <div className="icon-wrapper flex items-center justify-center w-5 h-5">
+                      <GiSeaDragon className="badge-icon text-white animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="badge-tooltip">exo</div>
                     <div className="sparkle-container"></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
