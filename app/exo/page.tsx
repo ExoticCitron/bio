@@ -6,8 +6,9 @@ import { useEffect, useState, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { CIcon } from "@coreui/icons-react"
 import { cibSpotify } from "@coreui/icons"
-import { Crown, Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
+import {  Github, MessageCircle, Globe, PlayCircle, Code2 } from "lucide-react"
 import { useLanyard } from "../hooks/use-lanyard"
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import Snowfall from "../../components/Snowfall"
 import ConstructionIcon from "@mui/icons-material/Construction"
 import CodeIcon from "@mui/icons-material/Code"
@@ -196,8 +197,8 @@ export default function BioLink() {
               <div className="flex items-center justify-center">
                 <div className="flex gap-2">
                   <div className="badge-container flex items-center justify-center">
-                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <Crown className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(202, 138, 4, 0.8]">
+                      <AutoAwesomeIcon className="badge-icon w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">owner</div>
                     <div className="sparkle-container"></div>
@@ -497,7 +498,7 @@ export default function BioLink() {
           position: absolute;
           width: 3px;
           height: 3px;
-          background-color: green;
+          background-color: white;
           border-radius: 50%;
           box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.8);
           opacity: 0;
@@ -701,13 +702,12 @@ export default function BioLink() {
         .rainbow-text {
           background-image: linear-gradient(
             to right,
-            #1E40AF, /* blue */
-            #4F46E5, /* indigo */
-            #EAB308, /* yellow */
-            #F97316, /* orange */
-            #8B4513, /* brown */
-            #1E40AF, /* blue again */
-            #4F46E5  /* indigo again to ensure smooth transition */
+            #7B9FF2,
+            #4259C3,
+            #7B9FF2, /* indigo */
+            #65b8a8, 
+            #5bb36b, /* orange */
+            #7B9FF2  /* indigo again to ensure smooth transition */
           );
           background-size: 200% 100%;
           background-clip: text;
@@ -764,6 +764,7 @@ export default function BioLink() {
           height: 3px;
           background: linear-gradient(to right, #43b581, #4f46e5) !important;
         }
+          
 
         .Toastify__toast--error .Toastify__progress-bar {
           background: linear-gradient(to right, #f04747, #ff7a6b) !important;
