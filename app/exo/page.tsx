@@ -138,7 +138,7 @@ export default function BioLink() {
       <Snowfall />
       {/* Background image instead of gradient */}
       <div className="absolute inset-0 z-0">
-        <img src="/images/background.png" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/images/sl.png" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/20" /> {/* Light overlay for better readability */}
       </div>
 
