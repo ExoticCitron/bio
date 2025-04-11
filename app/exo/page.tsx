@@ -199,29 +199,29 @@ export default function BioLink() {
                   <div className="shine-container absolute inset-0 rounded-full overflow-hidden pointer-events-none"></div>
 
                   <div className="badge-container flex items-center justify-center">
-                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(202, 138, 4, 0.8]">
-                      <GiCrown className="badge-icon w-5 h-6 sm:w-5 sm:h-5 text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    <div className="icon-wrapper flex items-center justify-center w-5 h-5">
+                      <GiCrown className="badge-icon text-yellow-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">owner</div>
                     <div className="sparkle-container"></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
-                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <MdOutlineCode className="badge-icon w-5 h-6 sm:w-5 sm:h-5 text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    <div className="icon-wrapper flex items-center justify-center w-5 h-5">
+                      <MdOutlineCode className="badge-icon text-green-400 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">developer</div>
                     <div className="sparkle-container "></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
-                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <IoCheckmarkDoneSharp className="badge-icon w-5 h-4 sm:w-5 sm:h-5 text-purple-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    <div className="icon-wrapper flex items-center justify-center w-5 h-5">
+                      <IoCheckmarkDoneSharp className="badge-icon text-purple-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">verified</div>
                     <div className="sparkle-container"></div>
                   </div>
                   <div className="badge-container flex items-center justify-center">
-                    <div className="animate-pulse-sync w-4 h-4 sm:w-5 sm:h-5 filter drop-shadow-[0_0_8px_rgba(102, 255, 102, 0.8)]">
-                      <GiSpinningSword className="badge-icon w-5 h-4 sm:w-4 sm:h-5 text-blue-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                    <div className="icon-wrapper flex items-center justify-center w-5 h-5">
+                      <GiSpinningSword className="badge-icon text-blue-600 animate-pulse-sync filter drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                     </div>
                     <div className="badge-tooltip">hunter&apos;s association</div>
                     <div className="sparkle-container"></div>
@@ -445,6 +445,37 @@ export default function BioLink() {
           box-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
         }
 
+        /* Icon wrapper to ensure consistent sizing */
+        .icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 20px;
+          width: 20px;
+          position: relative;
+        }
+        
+        .icon-wrapper svg {
+          width: 16px;
+          height: 16px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        
+        @media (min-width: 640px) {
+          .icon-wrapper {
+            height: 20px;
+            width: 20px;
+          }
+          
+          .icon-wrapper svg {
+            width: 18px;
+            height: 18px;
+          }
+        }
+
         @keyframes border-pulse {
           0% {
             opacity: 0.6;
@@ -500,7 +531,9 @@ export default function BioLink() {
         .badge-container {
           position: relative;
           cursor: pointer;
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           width: 20px;
           height: 20px;
           margin: 0 1px;
