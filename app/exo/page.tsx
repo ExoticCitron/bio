@@ -18,7 +18,7 @@ import { useMobile } from "@/hooks/use-mobile"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const CUSTOM_STATUS = "Death is far from distragedy"
+const CUSTOM_STATUS = "To doubt everything or to believe everything are 2 equally convenient solutions; both dispense with the necessity of reflection"
 
 export default function BioLink() {
   const { data: presence } = useLanyard("1162847350956511233")
