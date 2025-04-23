@@ -803,14 +803,13 @@ export default function BioLink() {
             to right,
             #000001,
             #2b2b2b,
-            #808080, /* indigo */
+            #808080, 
             #c0c0c0, 
-            #ffffff, /* orange */
+            #ffffff, 
             #c0c0c0,
             #808080,
             #2b2b2b,
-            #000001,
-            /* indigo again to ensure smooth transition */
+            #000001  
           );
           background-size: 200% 100%;
           background-clip: text;
