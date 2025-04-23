@@ -801,12 +801,16 @@ export default function BioLink() {
         .rainbow-text {
           background-image: linear-gradient(
             to right,
-            #7B9FF2,
-            #4259C3,
-            #7B9FF2, /* indigo */
-            #65b8a8, 
-            #5bb36b, /* orange */
-            #7B9FF2  /* indigo again to ensure smooth transition */
+            #000001,
+            #2b2b2b,
+            #808080, /* indigo */
+            #c0c0c0, 
+            #ffffff, /* orange */
+            #c0c0c0,
+            #808080,
+            #2b2b2b,
+            #000001,
+            /* indigo again to ensure smooth transition */
           );
           background-size: 200% 100%;
           background-clip: text;
