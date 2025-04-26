@@ -139,18 +139,14 @@ export default function BioLink() {
       <Snowfall />
       {/* Background image instead of gradient */}
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <img
+          src="/images/background.gif"
+          alt="Background"
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/videos/background.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="absolute inset-0 bg-black/20" /> {/* Light overlay for better readability */}
-     </div>
+        />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
 
 
       {/* Updated card styling with Discord-like metallic look */}
